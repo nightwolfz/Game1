@@ -1,0 +1,20 @@
+{
+	"name": "Beginners tutorial",
+	"tutorials": [
+		{"beginTime": 1, "endTime":5, "text": "Swipe left / right to move the ship."},
+		{"beginTime": 5, "endTime":20, "text": "Touch the right bottom corner to shoot."}
+	],
+	"spawns": [
+		["Enemy", 0, 2],
+		["Enemy", 1, 5],
+		["Enemy", 2, 7],
+		["Enemy", 3, 5],
+		["Enemy", 1, 10],
+		["Enemy", 2, 12],
+		["Enemy", 3, 15],
+	],
+	"background": {
+		"material": "Materials/Textures/bg3",
+		"elements": ["RedStar", "GreenStar", "BlueStar"]
+	}
+}

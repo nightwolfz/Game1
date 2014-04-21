@@ -1,0 +1,15 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GUI.cs">
+    <Files>
+      <File FileName="Assets\Player.cs" Line="3" Column="34" />
+      <File FileName="Assets\BulletFactory.cs" Line="69" Column="48" />
+      <File FileName="Assets\Bullet.cs" Line="19" Column="1" />
+      <File FileName="Assets\GUI.cs" Line="14" Column="17" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
