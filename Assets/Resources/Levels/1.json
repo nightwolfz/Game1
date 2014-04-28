@@ -1,8 +1,9 @@
 {
 	"name": "Beginners tutorial",
 	"tutorials": [
-		{"beginTime": 1, "endTime":5, "text": "Swipe left / right to move the ship."},
-		{"beginTime": 5, "endTime":20, "text": "Touch the right bottom corner to shoot."}
+		{"waitTime": 1, "text": "Swipe left / right to move the ship."},
+		{"waitTime": 8, "text": "Touch the right bottom corner to change colors."},
+		{"waitTime": 15, "text": "Attacking with same color does more damage."},
 	],
 	"spawns": [
 		["Enemy", 0, 2],

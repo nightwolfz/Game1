@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Linq;
+using Assets.Plugins;
 using UnityEngine;
 
 namespace Assets.Behaviors
@@ -67,6 +68,8 @@ namespace Assets.Behaviors
             Go.to(transform, animationTime, new GoTweenConfig().shake(new Vector2(2, 2)));
 
             Instantiate(Resources.Load<GameObject>("Effects/Explosions/Destruction01"), transform.position, Quaternion.identity);
+
+            TextManager.Show("+" + Credits, transform.position, Colors.GetColorById(ColorId));
 
             //SceneManager.ShakeCamera(animationTime);
             yield return new WaitForSeconds(animationTime);

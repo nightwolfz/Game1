@@ -8,14 +8,17 @@ namespace Assets.Behaviors
     public class PowerUp : MonoBehaviour
     {
         private GameObject _player;
+        private GameObject _powerup;
 
         void Start () {
             _player = GameObject.Find("Player");
+            _powerup = transform.parent.gameObject;
             Destroy(gameObject, 5);
         }
 	
-        void Update () {
-            transform.position += transform.TransformDirection(new Vector2(0, -5)) * Time.deltaTime * 10;
+        void Update ()
+        {
+            _powerup.transform.position += new Vector3(0, -5) * Time.deltaTime * 10;
         }
 
         void AddOrReplaceComponent<T>() where T : Component

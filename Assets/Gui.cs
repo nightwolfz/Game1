@@ -8,70 +8,49 @@ namespace Assets
     public class Gui : MonoBehaviour
     {
         private Player _player;
-        private GameObject _colorIndicator;
+        
+        private TextMesh _uiHealth;
+        private TextMesh _uiShield;
+        private TextMesh _uiCredits;
 
-        private int _boxWidth = 200;
-        private int _boxHeight = 48;
-        //private int _boxPadding = 10;
-
-        private int _healthBarLength;
-        private int _shieldBarLength;
+        public GUISkin UiSkin;
 
         void Start()
         {
-            _player = GameObject.Find("Player").GetComponent<Player>();
-            _colorIndicator = GameObject.Find("ColorIndicator");
+            _player = GameObject.Find("Player").GetComponent<Player>();            
+            _uiHealth = GameObject.Find("UiHealth").GetComponent<TextMesh>();
+            _uiShield = GameObject.Find("UiShield").GetComponent<TextMesh>();
+            _uiCredits = GameObject.Find("UiCredits").GetComponent<TextMesh>();
 
-            RefreshHealthBar();
-        }
-
-        void RefreshHealthBar()
-        {
-            _healthBarLength = (_boxWidth) * _player.Health / _player.MaxHealth;
-            _shieldBarLength = (_boxWidth) * _player.Shield / _player.MaxShield;
-        }
-
-        public GUISkin UiSkin;
-        private Texture2D _healthTexture2D;
-        private Texture2D _shieldTexture2D ;
-
-        void Awake()
-        {
             UiSkin = Resources.Load<GUISkin>("UiSkin");
-            _healthTexture2D = Resources.Load<Texture2D>("Materials/Textures/healthBar");
-            _shieldTexture2D = Resources.Load<Texture2D>("Materials/Textures/shieldBar");
+
+            InvokeRepeating("RefreshPlayerStats", 0, 0.5f);
         }
 
-        void OnGUI()
+        // Singleton  
+        private static Gui _instance;   
+        public static Gui Instance
         {
-            GUI.skin = UiSkin;
-
-            /*GUILayout.BeginVertical("box");
-            GUILayout.Box(new Rect(0, Screen.height + 5, 20, -_healthBarLength), "HP" + _player.Health + "/" + _player.MaxHealth);
-            GUILayout.Box(new Rect(20, Screen.height + 5, 20, -_shieldBarLength), "SP" + _player.Shield + "/" + _player.MaxShield);
-            GUILayout.EndVertical();*/
-
-            GUI.skin.box.normal.background = _healthTexture2D;
-            GUI.Box(new Rect(0, Screen.height - 105, 20, -_healthBarLength), "HP" + _player.Health + "/" + _player.MaxHealth);
-
-            GUI.skin.box.normal.background = _shieldTexture2D;
-            GUI.Box(new Rect(20, Screen.height - 105, 20, -_shieldBarLength), "SP" + _player.Shield + "/" + _player.MaxShield);
-
-            GUI.skin.button.normal.background = _healthTexture2D;
-            if (GUI.Button(new Rect(0, Screen.height-100, 100, 100), _player.ColorId.ToString()))
-            {
-                _player.SwitchColor();
-            }
-
-            GUI.Label(new Rect(5, 2, _boxWidth, _boxHeight), "Credits: <b>" + _player.Credits + "</b>");
+            get { return _instance ?? (_instance = FindObjectOfType(typeof (Gui)) as Gui); }
         }
 
-        void Update()
+        void RefreshPlayerStats()
         {
-            RefreshHealthBar();
-
-            //if (_colorIndicator.transform.)
+            _uiHealth.text = _player.Health.ToString();
+            _uiShield.text = _player.Shield.ToString();
+            _uiCredits.text = String.Format("{0:0,0}", _player.Credits);
         }
+
+        /*void OnGUI()
+        {
+            //GUI.skin = UiSkin;
+
+            // Show health bar
+            //GUI.Box(new Rect(0, Screen.height - 105, 40, -_healthBarLength), "HP" + _player.Health + "/" + _player.MaxHealth, _healthTexture2D);
+
+            // Show shield bar
+            //GUI.Box(new Rect(40, Screen.height - 105, 40, -_shieldBarLength), "SP" + _player.Shield + "/" + _player.MaxShield, _shieldTexture2D);
+        */
 
     }
 }

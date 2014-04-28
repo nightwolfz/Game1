@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Assets.Plugins;
 using SimpleJSON;
@@ -57,6 +58,18 @@ namespace Assets
 
             //------------ Send the queue to the factory ------------
             _enemyFactory.SetEnemiesQueue(enemiesQueue);
+
+            //------------ Add tutorial messages ------------
+            foreach (JSONNode tutorial in levelData["tutorials"].AsArray)
+            {
+                StartCoroutine(ShowTutorialMessage(tutorial["text"], tutorial["waitTime"].AsFloat));
+            }
+        }
+
+        IEnumerator ShowTutorialMessage(string msg, float waitSeconds)
+        {
+            yield return new WaitForSeconds(waitSeconds);
+            TextManager.Show(msg, TextEffects.Size.Small, TextEffects.Effect.Tutorial);
         }
 
 

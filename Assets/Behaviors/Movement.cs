@@ -17,7 +17,7 @@ namespace Assets.Behaviors
         void Awake()
         {
             //if (MoveJoystick == null) throw new UnassignedReferenceException("Please assign MoveJoystick object");
-            _clampToScreen = Screen.width / 9f;
+            _clampToScreen = Screen.width / 11f;
         }
 
         void Start ()

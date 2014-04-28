@@ -7,10 +7,12 @@ namespace Assets.Plugins
     {
 
         public bool emit = true;
-        public float emitTime = 0.00f;
+        public float emitTime = 0.0f;
         public Material material;
 
-        public float lifeTime = 1.00f;
+        public float lifeTime = 1.0f;
+
+        private float destroyAfterTime = 3.0f;
 
         public Color[] Colors;
         public float[] Sizes;
@@ -21,10 +23,10 @@ namespace Assets.Plugins
         public int movePixelsForRebuild = 6;
         public float maxRebuildTime = 0.1f;
 
-        public float minVertexDistance = 0.10f;
+        public float minVertexDistance = 0.1f;
 
-        public float maxVertexDistance = 10.00f;
-        public float maxAngle = 3.00f;
+        public float maxVertexDistance = 10.0f;
+        public float maxAngle = 3.0f;
 
         public bool autoDestruct = true;
 
@@ -33,12 +35,12 @@ namespace Assets.Plugins
         private Vector3 _lastPosition;
         private Vector3 _lastCameraPosition1;
         private Vector3 _lastCameraPosition2;
-        private float _lastRebuildTime = 0.00f;
+        private float _lastRebuildTime = 0.0f;
         private bool _lastFrameEmit = true;
 
         public class Point
         {
-            public float TimeCreated = 0.00f;
+            public float TimeCreated = 0.0f;
             public Vector3 Position;
             public bool LineBreak = false;
         }
@@ -54,7 +56,7 @@ namespace Assets.Plugins
             o.AddComponent<MeshFilter>();
             o.AddComponent<MeshRenderer>();
             o.renderer.material = material;
-			Destroy(o, lifeTime);
+            Destroy(o, destroyAfterTime);
         }
 
         void OnEnable()

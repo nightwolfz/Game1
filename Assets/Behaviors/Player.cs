@@ -28,6 +28,7 @@ namespace Assets.Behaviors
         public bool PoweredUp = false;
 
         public Shield ShieldComponent;
+        public MeshRenderer MeshComponent;
 
         public int HealthPerc
         {
@@ -38,9 +39,10 @@ namespace Assets.Behaviors
             get { return Colors.GetColorById(ColorId); }
         }
 
-        void Awake()
+        void Start ()
         {
             ShieldComponent = gameObject.GetComponent<Shield>();
+            MeshComponent = gameObject.transform.FindChild("Mesh").GetComponent<MeshRenderer>();
 
             gameObject.AddComponent<BulletFactory>().Init(
                 new List<Weapon>()
@@ -49,10 +51,6 @@ namespace Assets.Behaviors
                     new Weapon("Gattling", "U"),
                     new Weapon("Bullet", "R"),
                 }, false);
-        }
-
-        void Start ()
-        {
             StartCoroutine(ShieldComponent.ReplenishShields());
         }
 
@@ -64,13 +62,13 @@ namespace Assets.Behaviors
             yield return new WaitForSeconds(gameObject.GetComponent<PowerUpSpeed>()
                 ? gameObject.GetComponent<PowerUpSpeed>().ShootDelay
                 : ShootDelay);
-            
+
             _shooting = false;
         }
 
         void SetSpriteAlpha(float val)
         {
-            transform.FindChild("Mesh").GetComponent<MeshRenderer>().material.color = new Color(GetColor.r, GetColor.g, GetColor.b, val);
+            MeshComponent.material.color = new Color(GetColor.r, GetColor.g, GetColor.b, val);
         }
 
         IEnumerator Respawn()
@@ -92,14 +90,9 @@ namespace Assets.Behaviors
 
         void Update ()
         {
-            //Input.multiTouchEnabled = true;
-
             if (Dead == false)
             {
                 if (_shooting == false) StartCoroutine(ShootNow());
-
-                if (Input.GetKeyUp(KeyCode.Space)) SwitchColor();
-
                 if (Health <= 0) StartCoroutine(Respawn());
             }
         }
@@ -111,13 +104,6 @@ namespace Assets.Behaviors
                 Health -= 5;
                 other.gameObject.GetComponent<Enemy>().Die();
             }
-        }
-
-        public void SwitchColor()
-        {
-            if (ColorId++ >= 3) ColorId = 0;
-            //StartCoroutine(Respawn());
-            Debug.Log("Switched color to " + ColorId);
         }
 
     }

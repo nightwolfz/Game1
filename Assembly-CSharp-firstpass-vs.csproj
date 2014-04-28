@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Plugins\FadeInOut.cs" />
      <Compile Include="Assets\Plugins\GoKit\Go.cs" />
      <Compile Include="Assets\Plugins\GoKit\GoDummyPath.cs" />
      <Compile Include="Assets\Plugins\GoKit\GoTween.cs" />
@@ -114,6 +115,7 @@
      <Compile Include="Assets\Plugins\LoadJsonData.cs" />
      <Compile Include="Assets\Plugins\ObjectPool.cs" />
      <Compile Include="Assets\Plugins\SimpleJSON.cs" />
+     <Compile Include="Assets\Plugins\TextEffects.cs" />
      <Compile Include="Assets\Plugins\TimedTrailRenderer.cs" />
      <Compile Include="Assets\Plugins\Trail.cs" />
      <None Include="Assets\Resources\Materials\Shaders\Shield.shader" />

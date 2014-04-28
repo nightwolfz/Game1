@@ -6,6 +6,11 @@ namespace Assets.Behaviors
 
         public float DeadTimer = 3f;
 
+        public void Init(float deadTimer)
+        {
+            DeadTimer = deadTimer;
+        }
+
         void Awake () {
             Destroy(gameObject, DeadTimer);
         }

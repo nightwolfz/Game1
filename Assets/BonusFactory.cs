@@ -16,7 +16,8 @@ namespace Assets
         {
             var startVector = new Vector2(Random.Range(-30f, 30f), 50f);
             var o = (GameObject)Instantiate(Resources.Load("PowerUp"), startVector, Quaternion.identity);
-            o.AddComponent<PowerUp>();
+            o.transform.FindChild("Cube").gameObject.AddComponent<PowerUp>();
+            //o.AddComponent<PowerUp>();
         }
 
         void Move()
