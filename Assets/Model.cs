@@ -1,29 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Xml;
+using System.Linq;
+using SimpleJSON;
 using UnityEngine;
 
 namespace Assets
 {
-    static class Helpers
-    {
-        public static int SetDefaultValue(XmlNode node, string attribute, int defaultValue = 0)
-        {
-            if (node.Attributes != null && node.Attributes[attribute] != null)
-            {
-                return int.Parse(node.Attributes[attribute].Value);
-            }
-            return defaultValue;
-        }
-        public static string SetDefaultValue(XmlNode node, string attribute, string defaultValue = "")
-        {
-            if (node.Attributes != null && node.Attributes[attribute] != null)
-            {
-                return node.Attributes[attribute].Value;
-            }
-            return defaultValue;
-        }
-    }
-
     public class Weapon
     {
         public string Name;
@@ -42,11 +23,23 @@ namespace Assets
         public int ColorId = 0;
         public int Health = 30;
         public int Shield = 0;
+        public float ShootDelay = 2f;
+
+        public List<Weapon> Weapons;
 
         public Enemy(string name, int colorId)
         {
-            ColorId = colorId;
             Name = name;
+            ColorId = colorId;
+        }
+
+        public void Init(JSONNode enemyData)
+        {
+            var data = enemyData[Name];
+            if (data["hp"] != null) Health = data["hp"].AsInt;
+            if (data["sp"] != null) Shield = data["sp"].AsInt;
+            if (data["delay"] != null) ShootDelay = data["delay"].AsFloat;
+            Weapons = (from JSONNode weapon in data["weapons"].AsArray select new Weapon(weapon[1], weapon[0])).ToList();
         }
     }
 

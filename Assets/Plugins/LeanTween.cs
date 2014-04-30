@@ -258,7 +258,8 @@ public class LTDescr{
 		#endif
 		this.destroyOnComplete = false;
 		this.passed = this.delay = 0.0f;
-		this.useEstimatedTime = this.useFrames = this.hasInitiliazed = false;
+	    this.useEstimatedTime = true;
+        this.useFrames = this.hasInitiliazed = false;
 		this.animationCurve = null;
 		this.tweenType = LeanTweenType.linear;
 		this.loopType = LeanTweenType.once;

@@ -1,0 +1,24 @@
+{
+	"Enemy": {
+		"hp": 40,
+		"delay": 2,
+		"weapons": [
+			["U","Bullet"]
+		]
+	},
+	"EnemyStar": {
+		"hp": 100,
+		"delay": 2,
+		"weapons": [
+			["L","Gattling"]
+		]
+	},
+	"EnemyStarBig": {
+		"hp": 100,
+		"delay": 3,
+		"weapons": [
+			["L","Gattling"],
+			["R","Gattling"]
+		]
+	},
+}

@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 
-namespace Assets.Behaviors
+namespace Assets.Scripts
 {
-    class DebugPosition : MonoBehaviour
+    [AddComponentMenu("Gameplay/DebugUnit")]
+    class DebugUnit : MonoBehaviour
     {
         // Use this for initialization
         public void Start()

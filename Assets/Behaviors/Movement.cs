@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Assets.Behaviors
@@ -46,14 +47,14 @@ namespace Assets.Behaviors
                 Rotate();
             }
 
-            transform.position += _moveDirection;
+            transform.position += new Vector3(Mathf.Clamp(_moveDirection.x, -1.2f, 1.2f), 0);
         }
 
         void Rotate()
         {
-            if (_moveDirection.x > 0) _eulerAngle = new Vector2(90f, -40f);
-            else if (_moveDirection.x < 0) _eulerAngle = new Vector2(90f, 40f);
-            else _eulerAngle = new Vector2(90f, 0f);
+            if (_moveDirection.x > 0) _eulerAngle = new Vector2(90f, 140f);
+            else if (_moveDirection.x < 0) _eulerAngle = new Vector2(90f, 220f);
+            else _eulerAngle = new Vector2(90f, 180f);
 
             LeanTween.rotate(_mesh.gameObject, _eulerAngle, 0.1f);
         }

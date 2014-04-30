@@ -7,12 +7,21 @@ namespace Assets.Plugins
 {
     public class LoadJsonData : MonoBehaviour 
     {
-        public JSONNode GetLevelJson(int level)
+        public JSONNode GetLevelData(int level)
         {
-            var levelXml = Resources.Load<TextAsset>("Levels/" + level);
-            var json = JSON.Parse(levelXml.text);
+            var res = Resources.Load<TextAsset>("Data/" + level);
+            var json = JSON.Parse(res.text);
             if (json == null) Debug.LogError("Could not load '" + level + ".json'");
             return json;
         }
+        
+        public JSONNode GetEnemiesData()
+        {
+            var res = Resources.Load<TextAsset>("Data/Enemies");
+            var json = JSON.Parse(res.text);
+            if (json == null) Debug.LogError("Could not load 'Enemies.json'");
+            return json;
+        }
+
     }
 }

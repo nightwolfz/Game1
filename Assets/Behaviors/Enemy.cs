@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Linq;
-using Assets.Plugins;
 using UnityEngine;
 
 namespace Assets.Behaviors
@@ -9,7 +8,7 @@ namespace Assets.Behaviors
     {
         private BulletFactory _bulletFactory;
 
-        private float _shootDelay = 2f;
+        private float _shootDelay;
         private float _shootDelayTimer;
 
         private bool _enemyDestroyed;
@@ -32,12 +31,13 @@ namespace Assets.Behaviors
             Tween.setRepeat(999).setOnComplete(() => Destroy(gameObject));
         }
 
-        public void Init(int hp, int sp, int colorId)
+        public void Init(Assets.Enemy enemy)
         {
-            Health = hp;
-            Shield = sp;
+            Health = enemy.Health;
+            Shield = enemy.Shield;
             Credits = Health;
-            ColorId = colorId;
+            ColorId = enemy.ColorId;
+            _shootDelay = enemy.ShootDelay;
         }
 	
         void Update()
