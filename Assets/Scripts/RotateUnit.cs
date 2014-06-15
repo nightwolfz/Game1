@@ -13,7 +13,7 @@ namespace Assets.Scripts
         }
 	
         void Update () {
-            _mesh.transform.Rotate(new Vector3(0, 1, 0) * Time.deltaTime * 100);
+            _mesh.transform.Rotate(new Vector3(0, 2, 0) * Time.deltaTime * 100);
         }
     }
 }

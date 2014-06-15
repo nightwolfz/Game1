@@ -6,11 +6,7 @@
 		{"waitTime": 15, "text": "Attacking with same color does more damage."},
 	],
 	"spawns": [
-		["EnemyStar", 1, 5],
-		["EnemyStarBig", 2, 7],
-		["Enemy", 3, 10],
-		["EnemyStar", 2, 12],
-		["EnemyStarBig", 1, 15],
+		["enemy", 0, 5]
 	],
 	"background": {
 		"material": "Materials/Textures/bg3",

@@ -9,7 +9,7 @@ namespace Assets
 
         private bool _reverse;
         private List<Weapon> _weapons;
-        private Vector2 _moveDirection;
+        private float _moveRotation = 0f;
         private int _colorId = 0;
         private Color _color;
         private GameObject _bulletContainer;
@@ -57,23 +57,24 @@ namespace Assets
             switch (weapon.Behavior)
             {
                 case "L":
-                    _moveDirection = new Vector2(-5, 20 * direction);
+                    _moveRotation = 20f * direction;
                     break;
                 case "LL":
-                    _moveDirection = new Vector2(-20, 20 * direction);
+                    _moveRotation = 45f * direction;
                     break;
                 case "R":
-                    _moveDirection = new Vector2(5, 20 * direction);
+                    _moveRotation = -20f * direction;
                     break;
                 case "RR":
-                    _moveDirection = new Vector2(20, 20 * direction);
+                    _moveRotation = -45f * direction;
                     break;
                 default:
-                    _moveDirection = new Vector2(0, 20 * direction);
+                    _moveRotation = 0f * direction;
                     break;
             }
 
-            clone.GetComponent<Bullet>().Velocity = _moveDirection;
+            clone.GetComponent<Bullet>().Rotation = _moveRotation;
+            clone.GetComponent<Bullet>().Velocity = 20 * direction;
         }
 
     }

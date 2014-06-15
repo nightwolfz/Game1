@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Behaviors;
 using Assets.Plugins;
 using SimpleJSON;
 using UnityEngine;
@@ -10,45 +11,71 @@ namespace Assets
 {
     public class SceneManager : MonoBehaviour
     {
-        public int Dificulty = 1;
-        private float _delayTime = 1f;
-        private float _delayedTimer;
+        public int Level = 1, Dificulty = 1;
+
+        private float _delayTime = 1f, _delayedTimer;
         private bool _gamePaused = false;
 
         private EnemyFactory _enemyFactory;
-        private GameObject _level;
-        private GameObject _uiGame;
-        private GameObject _uiPause;
-        private Camera _mainCamera;
-        private Camera _menuCamera;
-
+        private GameObject _level, _loadingScreen;
+        private Camera _mainCamera, _menuCamera;
         private MeshRenderer _background;
+        public JSONNode LevelData { get; set; }
+
+        // Singleton  
+        private static SceneManager _instance;
+        public static SceneManager Instance { get { return _instance ?? (_instance = FindObjectOfType<SceneManager>()); } }
 
         public void Awake()
         {
             _background = GameObject.Find("Background").GetComponent<MeshRenderer>();
-            _uiGame = GameObject.Find("UI_Game");
-            _uiPause = GameObject.Find("UI_Pause");
             _mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
             _menuCamera = GameObject.Find("Menu Camera").GetComponent<Camera>();
+            _loadingScreen = GameObject.Find("Menu Camera");
+            _level = GameObject.Find("Level");
         }
 
         // Use this for initialization
         public void Start()
         {
-            _enemyFactory = gameObject.AddComponent<EnemyFactory>();
-            GenerateLevelJson(1);
+            LoadLevel(Level);
         }
 
-        public void GenerateLevelJson(int level)
+        public void LoadNextLevel()
         {
-            _level = GameObject.Find("Level");
-            var levelData = _level.AddComponent<LoadJsonData>().GetLevelData(1);
+            /*LeanTween.moveY(Player.Instance.gameObject, 10, 0.5f)
+            .setOnComplete(c => {
+                LeanTween.moveY(Player.Instance.gameObject, -41, 0f).setOnComplete(cc =>
+                {
+                    LoadLevel(++Level);
+                });
+            });*/
+            LoadLevel(++Level);
+        }
+
+        public void LoadLevel(int level)
+        {
+            // Load level data
+            if (_level.GetComponent<LoadJsonData>()) Destroy(_level.GetComponent<LoadJsonData>());
+            LevelData = _level.AddComponent<LoadJsonData>().GetLevelData(level);
+
+            // Generate stuff
+            StartCoroutine(GenerateEnemies());
+            StartCoroutine(GenerateLevel(level));
+            StartCoroutine(GenerateMessages());
+        }
+
+        IEnumerator GenerateEnemies()
+        {
+            if (gameObject.GetComponent<EnemyFactory>()) Destroy(gameObject.GetComponent<EnemyFactory>());
+            _enemyFactory = gameObject.AddComponent<EnemyFactory>();
+
+            //------------ Add enemies to the queue ------------
+            yield return new WaitForSeconds(3f);
             var enemiesQueue = new Queue<List<Enemy>>();
 
-            foreach (JSONNode spawn in levelData["spawns"].AsArray)
+            foreach (JSONNode spawn in LevelData["spawns"].AsArray)
             {
-                //------------ Add enemies to the queue ------------
                 //var randomColor = Random.Range(0, 3);
                 enemiesQueue.Enqueue(
                     Enumerable.Range(1, spawn[2].AsInt)
@@ -56,22 +83,35 @@ namespace Assets
                         .ToList());
             }
 
-            foreach (JSONNode element in levelData["background"]["elements"].AsArray)
-            {
-                AnimateBackgroundElement(element.Value);
-            }
-
-            //------------ Add background elements ------------
-            _background.material.mainTexture = Resources.Load<Texture2D>(levelData["background"]["material"].Value);
-
             //------------ Send the queue to the factory ------------
             _enemyFactory.SetEnemiesQueue(enemiesQueue);
+            yield return null;
+        }
+
+        IEnumerator GenerateMessages()
+        {
+            // Loading screen
+            LeanTween.alpha(_loadingScreen, 0, 1f);
+            TextManager.Show(LevelData["name"], TextEffects.Size.Big, TextEffects.Effect.Slow);
 
             //------------ Add tutorial messages ------------
-            foreach (JSONNode tutorial in levelData["tutorials"].AsArray)
+            yield return new WaitForSeconds(1f);
+            foreach (JSONNode tutorial in LevelData["tutorials"].AsArray)
             {
                 StartCoroutine(ShowTutorialMessage(tutorial["text"], tutorial["waitTime"].AsFloat));
             }
+        }
+
+        IEnumerator GenerateLevel(int level)
+        {
+            //------------ Add background elements ------------
+            _background.material.mainTexture = Resources.Load<Texture2D>(LevelData["background"]["material"].Value);
+
+            foreach (JSONNode element in LevelData["background"]["elements"].AsArray)
+            {
+                AnimateBackgroundElement(element.Value);
+            }
+            yield return null;
         }
 
         IEnumerator ShowTutorialMessage(string msg, float waitSeconds)
@@ -115,7 +155,7 @@ namespace Assets
                 .setOnCompleteHandler(c => camera.position = oldPosition);
         }
 
-        void PauseGame()
+        public void PauseGame()
         {
             _gamePaused = !_gamePaused;
             _mainCamera.enabled = !_gamePaused;
@@ -126,6 +166,5 @@ namespace Assets
             foreach (GameObject thisObject in allObjects)
                 if (_gamePaused) LeanTween.pause(thisObject); else LeanTween.resume(thisObject);
         }
-
     }
 }

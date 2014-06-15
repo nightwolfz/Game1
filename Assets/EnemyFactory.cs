@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Behaviors;
 using Assets.Plugins;
 using SimpleJSON;
 using UnityEngine;
@@ -17,6 +18,9 @@ namespace Assets
         void Start()
         {
             _enemyData = GameObject.Find("Level").GetComponent<LoadJsonData>().GetEnemiesData();
+
+            StopCoroutine("SpawnNewEnemies");
+            StartCoroutine(SpawnNewEnemies());
         }
 
         public void SetEnemiesQueue(Queue<List<Enemy>> enemiesQueue)
@@ -26,17 +30,12 @@ namespace Assets
 
         IEnumerator AddEnemies(IEnumerable<Enemy> enemies)
         {
-            foreach (var enemy in enemies)
-            {
-                enemy.Init(_enemyData);
-                yield return new WaitForSeconds(AddEnemy(enemy));
-            }
-            //return enemies.Select(enemy => new WaitForSeconds(AddEnemy(enemy))).GetEnumerator();
+            return enemies.Select(enemy => new WaitForSeconds(AddEnemy(enemy))).GetEnumerator();
         }
 
         float AddEnemy(Enemy enemy)
         {
-            //enemy.Init(_enemyData);
+            enemy.Init(_enemyData);
             _startVector = new Vector2(0f, 55f);
 
             var clone = (GameObject)Instantiate(Resources.Load("Enemies/" + enemy.Name), _startVector, Quaternion.identity);
@@ -49,15 +48,11 @@ namespace Assets
                 AddBezierPath(new Vector2(70, -23)),
             };
 
-            // Add model
-            //var mesh = Resources.Load<Mesh>("Models/" + enemy.Name);
-            //clone.transform.FindChild("Mesh").gameObject.GetComponent<MeshFilter>().sharedMesh = mesh;
-
             // Add Behaviors
             clone.AddComponent<Behaviors.Enemy>().Init(enemy);
             clone.GetComponent<Behaviors.Enemy>().Paths = CreateBezierArrayFromList(pathToFollow);
 
-            clone.GetComponentInChildren<MeshRenderer>().material.color = Colors.GetColorById(enemy.ColorId);
+            clone.GetComponentInChildren<MeshRenderer>().material.SetColor("_Color", Colors.GetColorById(enemy.ColorId));
             clone.AddComponent<BulletFactory>().Init(enemy.Weapons, true);
 
             return _spawnInterval;
@@ -71,18 +66,27 @@ namespace Assets
             debug.AddComponent<Scripts.DebugUnit>();
         }
 
-        void Update()
-        {
-            // If no enemies on the screen, create some
-            if (_enemiesQueue.Any() && !GameObject.FindGameObjectsWithTag("Enemy").Any())
-            {
-                print("adding");
-                StartCoroutine(AddEnemies(_enemiesQueue.Dequeue()));
-            }
-            // You killed them all, launch victory screen
-            else
-            {
 
+        IEnumerator SpawnNewEnemies()
+        {
+            yield return new WaitForSeconds(0f);
+
+            while (true)
+            {
+                yield return new WaitForSeconds(2f);
+
+                //----------- If no enemies on the screen, create some ----------------
+                if (_enemiesQueue.Any() && !FindObjectsOfType<Behaviors.Enemy>().Any())
+                {
+                    StartCoroutine(AddEnemies(_enemiesQueue.Dequeue()));
+                }
+
+                //----------- You killed them all, launch victory screen --------------
+                if (!_enemiesQueue.Any() && !FindObjectsOfType<Behaviors.Enemy>().Any())
+                {
+                    Debug.Log("You killed em all, next level!");
+                    SceneManager.Instance.LoadNextLevel();
+                }
             }
         }
 

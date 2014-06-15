@@ -61,13 +61,16 @@
      <Compile Include="Assets\Electricity\Scripts\LightningBolt.cs" />
      <Compile Include="Assets\EnemyFactory.cs" />
      <Compile Include="Assets\Gui.cs" />
+     <Compile Include="Assets\LevelManager.cs" />
      <Compile Include="Assets\Model.cs" />
      <Compile Include="Assets\SceneManager.cs" />
      <Compile Include="Assets\Scripts\DebugUnit.cs" />
+     <Compile Include="Assets\Scripts\PauseMenu.cs" />
      <Compile Include="Assets\Scripts\RotateAroundItself.cs" />
      <Compile Include="Assets\Scripts\RotateUnit.cs" />
      <Compile Include="Assets\Scripts\UiSwitchColor.cs" />
      <Compile Include="Assets\SimpleParticlePack\Scripts\ParticleTester.cs" />
+     <Compile Include="Assets\SoundManager.cs" />
      <Compile Include="Assets\TextManager.cs" />
      <None Include="Assets\Resources\Materials\Shaders\Shield.shader" />
      <None Include="Assets\Resources\Materials\Shaders\Outline.shader" />

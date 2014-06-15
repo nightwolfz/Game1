@@ -1,0 +1,16 @@
+{
+	"name": "Baby steps",
+	"tutorials": [
+		{"waitTime": 1, "text": "Your mission is..."},
+		{"waitTime": 8, "text": "Destroy all enemies!"}
+	],
+	"spawns": [
+		["enemyStar", 1, 10],
+		["enemyStar", 1, 10],
+		["enemyStar", 1, 10],
+	],
+	"background": {
+		"material": "Materials/Textures/bg1",
+		"elements": ["RedStar", "GreenStar", "BlueStar"]
+	}
+}

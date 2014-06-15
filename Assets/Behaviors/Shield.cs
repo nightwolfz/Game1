@@ -10,10 +10,9 @@ namespace Assets.Behaviors
 
         void Start ()
         {
-            _player = gameObject.GetComponent<Player>();
-            _shield = transform.FindChild("Shield").GetComponent<MeshRenderer>();
+            _player = Player.Instance;
+            _shield = Player.Instance.MeshComponent;
         }
-
 
         IEnumerator ReplenishShields(int restartDelay, float delay)
         {

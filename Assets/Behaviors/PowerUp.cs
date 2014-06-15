@@ -35,6 +35,9 @@ namespace Assets.Behaviors
         {
             if (other.tag != "Player") return;
 
+            // Play Sound
+            SoundManager.Instance.Play(SoundManager.Instance.PowerUpSound);
+
             // Health power up
             _player.GetComponent<Player>().Health = _player.GetComponent<Player>().MaxHealth;
 

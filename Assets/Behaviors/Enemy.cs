@@ -8,15 +8,10 @@ namespace Assets.Behaviors
     {
         private BulletFactory _bulletFactory;
 
-        private float _shootDelay;
-        private float _shootDelayTimer;
-
+        private float _shootDelay, _shootDelayTimer;
         private bool _enemyDestroyed;
 
-        public int Health = 100;
-        public int Shield;
-        public int ColorId;
-        public int Credits;
+        public int Health = 100, Shield, ColorId, Credits;
         public Vector3[] Paths;
 
         private GameObject _enemy;
@@ -37,7 +32,7 @@ namespace Assets.Behaviors
             Shield = enemy.Shield;
             Credits = Health;
             ColorId = enemy.ColorId;
-            _shootDelay = enemy.ShootDelay;
+            _shootDelay = enemy.ShootDelay + (Random.Range(0, enemy.ShootDelay*2)); // Make enemies shoot a bit differently
         }
 	
         void Update()

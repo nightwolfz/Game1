@@ -1,30 +1,34 @@
 ﻿using System;
-using Assets.Plugins;
 using UnityEngine;
 
 namespace Assets.Behaviors
 {
     public class Bullet : MonoBehaviour {
 
-        private float _timeLeft = 3;
+        public int Damage = 5, Speed = 10, ColorId = 0;
+        public int Velocity = 20;
+        public float Rotation = 0f;
 
-        public int Damage = 5;
-        public int Speed = 10;
-        public Vector2 Velocity = Vector2.zero;
-        protected int ColorId = 0;
+        private float _timeLeft = 3;
         protected bool DamageDone = false; // So we only damage once
         private Player _player;
         private Shield _shield;
 
         void Start()
         {
-            _player = GameObject.Find("Player").GetComponent<Player>();
-            _shield = _player.ShieldComponent;
+            _player = Player.Instance;
+            _shield = Player.Instance.ShieldComponent;
 
             if (gameObject.tag == "EnemyBullet"){
                 Speed /= (int)2; // Slow enemy bullets
                 Damage /= (int)2; // Weak enemy bullets
             }
+
+            //transform.GetComponent<SpriteRenderer>().sprite.texture.
+            //transform.rotation = new Quaternion(0f,0f,0f,344f);
+            transform.Rotate(0, 0, Rotation);
+
+            SoundManager.Instance.Play(SoundManager.Instance.BulletSound);
         }
 	
         void Update()
@@ -34,8 +38,8 @@ namespace Assets.Behaviors
             {
                 DestroyBullet();
             }
-
-            transform.position += transform.TransformDirection(Velocity) * (Time.deltaTime * Speed);
+            //transform.Rotate(new Vector3(0, 0, 344f)); //344, 24 //cool effect
+            transform.position += transform.TransformDirection(new Vector2(0, Velocity)) * (Time.deltaTime * Speed);
         }
 
         int GetDamageWithMultiplier(int colorId2)

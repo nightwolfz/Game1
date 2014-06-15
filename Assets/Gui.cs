@@ -17,7 +17,7 @@ namespace Assets
 
         void Start()
         {
-            _player = GameObject.Find("Player").GetComponent<Player>();            
+            _player = Player.Instance;
             _uiHealth = GameObject.Find("UiHealth").GetComponent<TextMesh>();
             _uiShield = GameObject.Find("UiShield").GetComponent<TextMesh>();
             _uiCredits = GameObject.Find("UiCredits").GetComponent<TextMesh>();
@@ -25,13 +25,6 @@ namespace Assets
             UiSkin = Resources.Load<GUISkin>("UiSkin");
 
             InvokeRepeating("RefreshPlayerStats", 0, 0.5f);
-        }
-
-        // Singleton  
-        private static Gui _instance;   
-        public static Gui Instance
-        {
-            get { return _instance ?? (_instance = FindObjectOfType(typeof (Gui)) as Gui); }
         }
 
         void RefreshPlayerStats()

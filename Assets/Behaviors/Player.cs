@@ -39,6 +39,10 @@ namespace Assets.Behaviors
             get { return Colors.GetColorById(ColorId); }
         }
 
+        // Singleton  
+        private static Player _instance;
+        public static Player Instance { get { return _instance ?? (_instance = FindObjectOfType<Player>()); } }
+
         void Start ()
         {
             ShieldComponent = gameObject.GetComponent<Shield>();

@@ -47,7 +47,7 @@ namespace Assets.Behaviors
                 Rotate();
             }
 
-            transform.position += new Vector3(Mathf.Clamp(_moveDirection.x, -1.2f, 1.2f), 0);
+            transform.position += new Vector3(Mathf.Clamp(_moveDirection.x, -4, 4), 0);
         }
 
         void Rotate()

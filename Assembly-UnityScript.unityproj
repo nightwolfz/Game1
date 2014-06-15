@@ -46,15 +46,16 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\FT_FreeSample\Script\AnimationScrollTexture.js" />
-     <Compile Include="Assets\FT_FreeSample\Script\AnimationSpriteSheet.js" />
-     <Compile Include="Assets\FT_FreeSample\Script\DeadTime.js" />
-     <Compile Include="Assets\FT_FreeSample\Script\SampleSceneGUI.js" />
-     <Compile Include="Assets\FT_FreeSample\Script\StopCAM.js" />
-     <Compile Include="Assets\FT_FreeSample\Script\VisibleBG.js" />
+     <Compile Include="Assets\LeanTween\LeanTweenExamples\Scripts\EventListenersScatteredJS.js" />
+     <Compile Include="Assets\LeanTween\LeanTweenExamples\Scripts\ExampleJS.js" />
+     <Compile Include="Assets\LeanTween\LeanTweenExamples\Scripts\ExamplePunchJS.js" />
+     <Compile Include="Assets\LeanTween\LeanTweenExamples\Scripts\MenuExampleJS.js" />
+     <Compile Include="Assets\LeanTween\LeanTweenExamples\Scripts\MenuSimpleJS.js" />
+     <Compile Include="Assets\LeanTween\LeanTweenExamples\Scripts\MoveLocalCurveJS.js" />
+     <Compile Include="Assets\LeanTween\LeanTweenExamples\Scripts\SlideImageIn.js" />
      <None Include="Assets\Resources\Materials\Shaders\Shield.shader" />
      <None Include="Assets\Resources\Materials\Shaders\Outline.shader" />
-     <None Include="Assets\Resources\Levels\1.xml" />
+     <None Include="Assets\LeanTween\LeanTweenExamples\Shader\2dUnlitWithFade.shader" />
      <None Include="Assets\Electricity\Shaders\lightning.shader" />
   </ItemGroup>
   <ItemGroup>
